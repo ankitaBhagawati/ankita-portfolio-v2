@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-anton: var(--font-anton);
+  --font-archivo: var(--font-archivo);
+  --font-caveat: var(--font-caveat);
+}
+
+:root {
+  --accent: #3d0c0c;
+  --accent-hover: #6b1a1a;
+  --cream: #edeae2;
+  --ink: #1c1310;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--cream);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+}
+
+.icon-btn:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.cta-btn:hover {
+  background: var(--ink);
+}
+
+.underline-hover:hover {
+  color: var(--ink);
+}
+
+.arrow-btn:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.footer-social:hover {
+  color: var(--accent);
+}
+
+.about-link:hover {
+  border-bottom-color: var(--cream) !important;
+}
+
+.form-field:focus {
+  border-color: var(--cream) !important;
+  outline: none;
+}
+
+.submit-btn:hover {
+  background: #fff !important;
+  color: var(--ink) !important;
+}
+
+.ig-pill:hover {
+  background: var(--accent);
+  color: var(--cream);
+}
+
+.big-hl {
+  font-size: clamp(64px, 10vw, 148px);
+}
+
+.section-hl {
+  font-size: clamp(36px, 5vw, 64px);
+}
+
+.about-hl {
+  font-size: clamp(32px, 4.5vw, 56px);
+}
+
+.foot-email {
+  font-size: clamp(32px, 6.5vw, 92px);
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stats-bar {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .case-cols {
+    grid-template-columns: 1fr !important;
+  }
+  .tracks-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .booking-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .big-hl {
+    font-size: clamp(48px, 13vw, 90px) !important;
+  }
+  .section-pad {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .foot-email {
+    font-size: clamp(28px, 8vw, 54px) !important;
+  }
+}
