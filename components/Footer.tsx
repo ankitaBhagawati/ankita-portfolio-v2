@@ -1,6 +1,5 @@
 import Image from "next/image";
-import footerPhoto from "@/assets/images/footer-placeholder.webp";
-import { social } from "@/lib/site-config";
+import { brand, nav, social } from "@/lib/site-config";
 
 const links = [
   {
@@ -43,22 +42,18 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="section-pad mx-auto max-w-[1280px] px-6 pt-[100px] pb-12 md:px-12">
+    <footer className="section-pad mx-auto max-w-[1280px] px-6 pt-[100px] pb-8 md:px-12">
       <div className="flex flex-wrap items-center justify-between gap-7 border-b border-black/20 pb-10">
-        <div className="flex items-center gap-[18px]">
-          <div className="relative h-16 w-16 overflow-hidden rounded-full bg-black/5">
-            <Image
-              src={footerPhoto}
-              alt="Ankita Bhagawati"
-              fill
-              sizes="64px"
-              className="object-cover"
-            />
-          </div>
+        <div className="flex items-center gap-[14px]">
+          <Image
+            src="/icon-oxblood-rounded.svg"
+            alt={brand.name}
+            width={44}
+            height={44}
+            className="rounded-[10px]"
+          />
           <div>
-            <p className="m-0 font-anton text-lg uppercase">
-              Ankita Bhagawati
-            </p>
+            <p className="m-0 font-anton text-lg uppercase">{brand.name}</p>
             <p className="mt-0.5 mb-0 text-[13px] text-black/60">
               Building fast, building right, one project at a time.
             </p>
@@ -78,6 +73,21 @@ export default function Footer() {
             </a>
           ))}
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-6 text-[13px] text-black/60">
+        <p className="m-0">{brand.name}© 2026 </p>
+        <nav className="flex flex-wrap gap-x-6 gap-y-2">
+          {nav.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="footer-social text-black/60 transition-colors hover:text-[var(--accent)]"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
       </div>
     </footer>
   );

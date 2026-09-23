@@ -1,26 +1,24 @@
 import About from "@/components/About";
-import Approach from "@/components/Approach";
-import Booking from "@/components/Booking";
+import Contact from "@/components/Contact";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Mentoring from "@/components/Mentoring";
+import Published from "@/components/Published";
 import Testimonials from "@/components/Testimonials";
-import Work from "@/components/Work";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--cream)]">
       <Header />
       <Hero />
-      <Approach />
       <About />
-      <Work />
       <Mentoring />
+      <Published />
       <Testimonials />
+      <Contact />
       <Faq />
-      <Booking />
       <Footer />
     </div>
   );

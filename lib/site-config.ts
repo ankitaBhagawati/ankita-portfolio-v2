@@ -1,15 +1,14 @@
-export const theme = {
-  accent: "#3D0C0C",
-  cream: "#EDEAE2",
-  ink: "#1C1310",
-  showHandwrittenNotes: true,
+export const brand = {
+  name: "Tech Bagwitty",
+  fullName: "Ankita Bhagawati",
+  location: "Sivasagar, Assam",
 };
 
 export const nav = [
-  { href: "#approach", label: "Approach" },
   { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
   { href: "#mentoring", label: "Mentoring" },
+  { href: "#published", label: "Published" },
+  { href: "#testimonials", label: "Testimonials" },
   { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
 ];
@@ -22,7 +21,20 @@ export const social = {
   x: "https://x.com/sheisnotboring",
 };
 
-export const calLink = "ankita-bhagawati/quick-call";
+// Real posts from instagram.com/tech_bagwitty. Thumbnails are self-hosted
+// copies of the real cover images (Instagram's CDN links expire, so they're
+// saved to public/instagram/ instead of hotlinked). Swap for newer posts by
+// updating the url and re-saving that reel's cover image over the thumb.
+export const instagramPosts = [
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DdBsMKLBkfF/", thumb: "/instagram/reel-6.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DdL_YU3hiDJ/", thumb: "/instagram/reel-2.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DcvuErxhAuK/", thumb: "/instagram/reel-3.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/Dcn_DaZhbuT/", thumb: "/instagram/reel-7.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DcPiK7rT0nB/", thumb: "/instagram/reel-8.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DbbiAvpT4D9/", thumb: "/instagram/reel-4.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DZUzIAETqK6/", thumb: "/instagram/reel-5.jpg" },
+  { url: "https://www.instagram.com/tech_bagwitty/reel/DXZml35Etpc/", thumb: "/instagram/reel-1.jpg" },
+];
 
 export const stats = [
   { value: "5+", label: "Years Experience" },
@@ -31,7 +43,8 @@ export const stats = [
   { value: "50+", label: "Students Mentored" },
 ];
 
-export const steps = [
+// Shown on the back of the "For Startup Founders" card in Mentoring.
+export const founderApproach = [
   {
     num: "01",
     title: "Discovery & Requirements",
@@ -59,40 +72,122 @@ export const steps = [
   },
 ];
 
-export const skills = [
-  "Fullstack development: Angular, .NET, React",
-  "AI-driven development & tooling",
-  "Python / FastAPI",
-  "Database design & SQL",
-  "Startup tech strategy",
-  "Career mentoring & interview prep",
-];
-
-export const featuredProject = {
-  title: "Civic Tech: Community Reporting Platform",
-  challenge:
-    "Placeholder: describe the core problem the community faced and why existing tools fell short.",
-  solution:
-    "Placeholder: outline the architecture, stack, and AI-driven approach used to build it.",
-  impact:
-    "Placeholder: add measurable outcomes: users reached, reports resolved, time saved.",
-};
-
-export const projects = [
+// Shown on the back of the "For Students & Freshers" card in Mentoring.
+export const studentApproach = [
+  {
+    num: "01",
+    title: "Understand Where You Are",
+    desc: "Background, current skills, and the specific goal, before deciding what to work on first.",
+  },
   {
     num: "02",
-    title: "Startup MVP: AI-powered SaaS Tool",
-    cat: "Startup MVP · Consulting engagement",
+    title: "Build a Learning Plan",
+    desc: "A focused plan on the skills and projects that actually move the needle for the roles you want.",
   },
   {
     num: "03",
-    title: "Internal Tools: Enterprise Platform Work",
-    cat: "Enterprise · Platform engineering",
+    title: "Practice & Mock Interviews",
+    desc: "Real mock interviews and structured practice, not just theory.",
   },
   {
     num: "04",
-    title: "Freelance: Local Business Web/App",
-    cat: "Freelance · Web & mobile",
+    title: "Portfolio & Resume",
+    desc: "Turn your work into a portfolio and resume that actually gets you interviews.",
+  },
+  {
+    num: "05",
+    title: "Interview & Offer Support",
+    desc: "Support through the interview process until you land the offer.",
+  },
+];
+
+export const whatIDo =
+  "Software Engineer focused on fullstack development and AI-driven tooling. I ship working software, not proposals.";
+
+export const workHistory = {
+  current: {
+    company: "Numerator",
+    role: "Software Engineer",
+    period: "Feb 2026 - Present",
+    type: "Full-time",
+    href: "https://numerator.com",
+    logo: "/logos/numerator.svg",
+  },
+  previous: [
+    {
+      company: "Doodleblue Innovations",
+      role: "Senior Software Engineer",
+      period: "Mar 2025 - Jan 2026",
+      type: "Full-time",
+      href: "https://doodleblue.com",
+      logo: "/logos/doodleblue.png",
+    },
+    {
+      company: "i2e Consulting",
+      role: "Software Developer",
+      period: "Sep 2021 - Feb 2025",
+      type: "Started as an intern, moved to full-time",
+      href: "https://i2econsulting.com",
+      logo: "/logos/i2econsulting.png",
+    },
+  ],
+};
+
+// Shown right after the "Where I Work" block on the About section.
+export const sideWork =
+  "Outside of work, I take on freelance and consulting projects, and mentor students breaking into tech.";
+
+export const builtProjects = [
+  {
+    name: "Axom Relief",
+    desc: "Social-tech initiative coordinating flood relief in Assam. Partnered with the Sivasagar district administration to help an estimated 2,000 people access aid.",
+    href: "https://axomrelief.com",
+    logo: "/logos/axomrelief.webp",
+    instagram: "https://www.instagram.com/axom.relief/",
+    instagramHandle: "axom.relief",
+  },
+  {
+    name: "Jabor - Garbage Tracker",
+    desc: "A citizen-first platform for reporting civic issues like garbage dumped in public places, making it easier for people to raise complaints and hold authorities accountable.",
+    href: "https://jabor.in",
+    logo: "/logos/jabor.png",
+    x: "https://x.com/JaborAssam",
+    xHandle: "JaborAssam",
+  },
+];
+
+export const keySkills = [
+  "Startup tech strategy",
+  "Career mentoring & interview prep",
+  "AI-driven development & tooling",
+  "Database design & SQL",
+  "Communication & Public Speaking",
+  "Project management",
+];
+
+export const publishedItems = [
+  {
+    outlet: "Assam Tribune",
+    title:
+      "Unable to join flood relief, GU student builds website linking aid survivors",
+    href: "https://assamtribune.com/guwahati/unable-to-join-flood-relief-gu-student-builds-website-linking-aid-survivors-1615119",
+  },
+  {
+    outlet: "India Today NE",
+    title:
+      "Two kilometres from help: how Assam's young techies tried to bridge a flood relief gap",
+    href: "https://www.indiatodayne.in/assam/story/two-kilometres-from-help-how-assams-young-techies-tried-to-bridge-a-flood-relief-gap-1435105-2026-08-09",
+  },
+  {
+    outlet: "North East Publish",
+    title: "Sivasagar engineer develops civic reporting platform: Jabor",
+    href: "https://www.facebook.com/northeastpublish/posts/sivasagar-engineer-develops-civic-reporting-platform-jaborsoftware-engineer-anki/1488183033326452/",
+  },
+  {
+    outlet: "moi.sivasagar",
+    title:
+      "Software engineer Ankita Bhagawati develops Jabor, a citizen-first civic reporting platform",
+    href: "https://www.instagram.com/p/Da70FmXif2l/",
   },
 ];
 
@@ -138,7 +233,7 @@ export const faqs = [
   },
   {
     q: "How long is a typical mentoring engagement?",
-    a: "It depends on your goals. Some mentees need a single session to unblock a decision; most engagements run 4–8 weeks with weekly check-ins. We'll define the scope together on the first free call.",
+    a: "It depends on your goals. Some mentees need a single session to unblock a decision; most engagements run 4–8 weeks with weekly check-ins. We'll define the scope together on the first call.",
   },
   {
     q: "What's your tech stack focus?",
@@ -149,7 +244,15 @@ export const faqs = [
     a: "Yes, early-stage is my sweet spot. I help founders make build-vs-buy calls, design architecture that won't need a rewrite at scale, and set up pragmatic AI strategies before hiring a full team.",
   },
   {
+    q: "Do you work with existing teams, or only new projects?",
+    a: "Both. I join existing teams for architecture reviews, stack decisions, and hands-on delivery, and I also take on greenfield builds from scratch.",
+  },
+  {
+    q: "Is this a one-off engagement, or do you offer ongoing advisory?",
+    a: "Either. Some founders need a single strategy session to unblock a decision, others keep me on as an ongoing technical advisor. We scope this on the first call.",
+  },
+  {
     q: "How are fees structured?",
-    a: "The first consultation is always free. After that: mentoring is priced per session or as a package, and startup consulting is scoped per engagement, hourly or fixed-scope. No surprises; everything is agreed upfront.",
+    a: "Mentoring is priced per session or as a package, and startup consulting is scoped per engagement, hourly or fixed-scope. No surprises; everything is agreed upfront.",
   },
 ];

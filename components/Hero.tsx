@@ -1,6 +1,6 @@
 import Image from "next/image";
 import heroPhoto from "@/assets/images/hero-placeholder.webp";
-import { stats, theme } from "@/lib/site-config";
+import { brand, stats } from "@/lib/site-config";
 
 export default function Hero() {
   return (
@@ -30,25 +30,36 @@ export default function Hero() {
               />
             </div>
           </div>
-          {theme.showHandwrittenNotes && (
-            <div className="pointer-events-none absolute -top-3.5 -right-[72px] max-w-[150px] rotate-[6deg] font-caveat text-2xl leading-[1.1] text-[var(--accent)]">
-              that&apos;s me, let&apos;s talk! ↓
-            </div>
-          )}
         </div>
         <div className="pb-3">
           <p className="m-0 font-anton text-[26px] uppercase tracking-[0.5px]">
             Ankita Bhagawati
+          </p>
+          <p className="mt-0.5 mb-0 font-caveat text-xl leading-none text-[var(--accent)]">
+            aka Tech Bagwitty
+          </p>
+          <p className="mt-2 mb-0 flex items-center gap-1.5 text-[13px] text-black/55">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-3.5 w-3.5 flex-none"
+            >
+              <path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z" />
+              <circle cx="12" cy="9.5" r="2.3" />
+            </svg>
+            {brand.location}
           </p>
           <p className="mt-2 max-w-[420px] text-[15px] leading-[1.55] text-black/70">
             Software Engineer: Fullstack &amp; AI-driven Development. I help
             startups ship products and students land careers.
           </p>
           <a
-            href="#contact"
+            href="#mentoring"
             className="underline-hover mt-5 inline-flex items-center gap-2 border-b-2 border-[var(--accent)] pb-[3px] text-[15px] font-semibold transition-colors"
           >
-            Free Consultation →
+            What Do I Do? →
           </a>
         </div>
       </div>

@@ -22,9 +22,19 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Ankita Bhagawati — Software Engineer, Fullstack & AI-driven Development",
+  // Set NEXT_PUBLIC_SITE_URL once the custom domain is connected, so
+  // absolute URLs (like the og:image below) resolve correctly.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  title:
+    "Tech Bagwitty (Ankita Bhagawati) | Software Engineer, Fullstack & AI-driven Development",
   description:
-    "Ankita Bhagawati helps startups ship products and students land careers. Fullstack & AI-driven development, technical consulting, and mentoring.",
+    "Ankita Bhagawati (Tech Bagwitty) helps startups ship products and students land careers. Fullstack & AI-driven development, technical consulting, mentoring, and social tech.",
+  openGraph: {
+    title: "Tech Bagwitty (Ankita Bhagawati)",
+    description:
+      "Fullstack & AI-driven development, technical consulting, mentoring, and social tech.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
