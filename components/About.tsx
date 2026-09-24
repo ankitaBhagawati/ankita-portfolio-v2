@@ -53,14 +53,14 @@ export default function About() {
           <LogoBadge src={workHistory.current.logo} alt={workHistory.current.company} />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2.5">
-              <p className="m-0 text-base font-normal text-[var(--ink)]">
+              <p className="m-0 text-[15px] font-normal text-[var(--ink)] md:text-base">
                 {workHistory.current.company}
               </p>
               <span className="rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[11px] font-semibold tracking-[0.5px] text-[var(--cream)] uppercase">
                 Current
               </span>
             </div>
-            <p className="mt-1 mb-0 text-[13.5px] text-black/60">
+            <p className="mt-1 mb-0 text-[13px] text-black/60 md:text-[13.5px]">
               {workHistory.current.role}
               <span className="block sm:inline">
                 <span className="hidden sm:inline"> · </span>
@@ -83,10 +83,10 @@ export default function About() {
                   <div className="h-11 w-11 flex-none rounded-[10px] border border-dashed border-black/20" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="m-0 text-sm font-bold text-[var(--ink)]">
+                  <p className="m-0 text-[13.5px] font-bold text-[var(--ink)] md:text-sm">
                     {job.company}
                   </p>
-                  <p className="mt-0.5 mb-0 text-[13px] text-black/60">
+                  <p className="mt-0.5 mb-0 text-[12.5px] text-black/60 md:text-[13px]">
                     {job.role}
                     <span className="block sm:inline">
                       <span className="hidden sm:inline"> · </span>
@@ -141,11 +141,11 @@ export default function About() {
                 className="flex items-center gap-3.5 transition-colors hover:text-[var(--accent)]"
               >
                 <LogoBadge src={p.logo} alt={p.name} />
-                <p className="m-0 font-anton text-lg uppercase text-[var(--ink)]">
+                <p className="m-0 font-anton text-base uppercase text-[var(--ink)] md:text-lg">
                   {p.name}
                 </p>
               </a>
-              <p className="m-0 text-[14px] leading-[1.55] text-black/65">
+              <p className="m-0 text-[13px] leading-[1.55] text-black/65 md:text-[14px]">
                 {p.desc}
               </p>
               {(p.instagram || p.x) && (

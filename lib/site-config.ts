@@ -226,7 +226,8 @@ export type Testimonial = {
   quote: string;
   name: string;
   role: string;
-  linkedin: string;
+  // Leave out when the person has no LinkedIn: a grey, non-clickable icon is shown.
+  linkedin?: string;
   // Optional profile picture, e.g. "/testimonials/tonmoy.jpg" (saved in
   // public/testimonials/). Without it, an initials circle is shown.
   photo?: string;
@@ -247,6 +248,18 @@ export const testimonials: Testimonial[] = [
     role: "UI UX designer",
     linkedin:
       "https://www.linkedin.com/in/mrigakshee-krishnatreya-4419651b6/",
+  },
+  {
+    quote:
+      "Being a team mate of Ankita, my observations and follow ups had spoken up to the fact that working with Ankita has always been a good experience. She is a nice girl with a lot of knowledge in tech.",
+    name: "Mousikhi Maity",
+    role: "Founder, TrulyUr's",
+  },
+  {
+    quote:
+      "I really enjoyed working with her. She taught me everything with so much patience and kindness, and explained everything so well. She has a very friendly and supportive nature. I\u2019m genuinely happy that I got the opportunity to work with her. It was a great experience!",
+    name: "Farnaz Begum",
+    role: "Team mate (AxomRelief)",
   },
 ];
 

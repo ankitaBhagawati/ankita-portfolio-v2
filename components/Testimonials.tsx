@@ -5,7 +5,25 @@ import Image from "next/image";
 import { LinkedInIcon } from "@/components/SocialIcons";
 import { testimonials } from "@/lib/site-config";
 
-const AUTOPLAY_MS = 4000;
+const AUTOPLAY_MS = 2000;
+
+function AuthorLink({
+  href,
+  className,
+  children,
+}: {
+  href?: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  return href ? (
+    <a href={href} target="_blank" rel="noopener" className={className}>
+      {children}
+    </a>
+  ) : (
+    <div className={className}>{children}</div>
+  );
+}
 
 function stepOf(el: HTMLElement) {
   const [a, b] = [el.children[0], el.children[1]] as HTMLElement[];
@@ -33,7 +51,7 @@ export default function Testimonials() {
     else el.scrollBy({ left: -stepOf(el), behavior: "smooth" });
   }, []);
 
-  // Restarts the 4s countdown, so any manual scroll or click delays the next auto-advance.
+  // Restarts the countdown, so any manual scroll or click delays the next auto-advance.
   const start = useCallback(() => {
     window.clearInterval(timer.current);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -115,18 +133,16 @@ export default function Testimonials() {
         {testimonials.map((t) => (
           <div
             key={t.name + t.role}
-            className="flex flex-[1_0_min(420px,85vw)] snap-start flex-col gap-6 rounded-[20px] border border-black/25 p-[34px]"
+            className="flex flex-[1_0_min(420px,85vw)] snap-start flex-col gap-6 rounded-[20px] border border-black/25 p-6 md:p-[34px]"
           >
-            <span className="font-anton text-4xl leading-none text-[var(--accent)]">
+            <span className="font-anton text-3xl leading-none text-[var(--accent)] md:text-4xl">
               &quot;
             </span>
-            <p className="m-0 flex-1 text-[15px] leading-[1.65] text-black/80">
+            <p className="m-0 flex-1 text-[14px] leading-[1.65] text-black/80 md:text-[15px]">
               {t.quote}
             </p>
-            <a
+            <AuthorLink
               href={t.linkedin}
-              target="_blank"
-              rel="noopener"
               className="group flex items-center gap-3"
             >
               <span className="relative flex h-11 w-11 flex-none items-center justify-center overflow-hidden rounded-full bg-[var(--accent)] font-anton text-sm tracking-[0.5px] text-[var(--cream)]">
@@ -147,15 +163,19 @@ export default function Testimonials() {
                 )}
               </span>
               <span>
-                <span className="flex items-center gap-1.5 text-sm font-bold text-[var(--ink)] group-hover:underline">
+                <span
+                  className={`flex items-center gap-1.5 text-sm font-bold text-[var(--ink)] ${t.linkedin ? "group-hover:underline" : ""}`}
+                >
                   {t.name}
-                  <LinkedInIcon className="h-3.5 w-3.5 text-[#0A66C2]" />
+                  <LinkedInIcon
+                    className={`h-3.5 w-3.5 ${t.linkedin ? "text-[#0A66C2]" : "text-black/30"}`}
+                  />
                 </span>
                 <span className="mt-0.5 block text-[13px] text-black/55">
                   {t.role}
                 </span>
               </span>
-            </a>
+            </AuthorLink>
           </div>
         ))}
       </div>

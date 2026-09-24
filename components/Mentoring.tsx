@@ -66,7 +66,7 @@ function FlipCard({
   const num = dark ? "text-[rgba(237,234,226,0.6)]" : "text-[var(--accent)]";
   const desc = dark ? "text-[rgba(237,234,226,0.7)]" : "text-black/60";
   const heading =
-    "m-0 font-anton text-xl font-normal uppercase md:text-2xl";
+    "m-0 font-anton text-lg font-normal uppercase md:text-2xl";
 
   return (
     <div className={`flip-card ${flipped ? "is-flipped" : ""}`}>
@@ -79,12 +79,12 @@ function FlipCard({
             <h3 className={heading}>{title}</h3>
             <FlipButton onClick={() => setFlipped(true)} />
           </div>
-          <p className={`m-0 mt-1 mb-3 text-sm ${muted}`}>{tagline}</p>
+          <p className={`m-0 mt-1 mb-3 text-[13px] md:text-sm ${muted}`}>{tagline}</p>
           <div className={`flex flex-1 flex-col border-t ${line}`}>
             {track.map((it) => (
               <div
                 key={it.num}
-                className={`flex flex-1 items-center gap-3.5 border-b py-2 text-[15px] ${line}`}
+                className={`flex flex-1 items-center gap-3.5 border-b py-2 text-[14px] md:text-[15px] ${line}`}
               >
                 <span className={`font-anton text-[13px] ${num}`}>{it.num}</span>
                 {it.label}
@@ -101,7 +101,7 @@ function FlipCard({
             <h3 className={heading}>My Approach</h3>
             <FlipButton back onClick={() => setFlipped(false)} />
           </div>
-          <p className={`m-0 mt-1 mb-3 text-sm ${muted}`}>{backTagline}</p>
+          <p className={`m-0 mt-1 mb-3 text-[13px] md:text-sm ${muted}`}>{backTagline}</p>
           <div className={`flex-1 border-t ${line}`}>
             {approach.map((step) => (
               <div key={step.num} className={`border-b py-1.5 ${line}`}>
@@ -109,7 +109,7 @@ function FlipCard({
                   <span className={`font-anton text-[13px] ${num}`}>
                     {step.num}
                   </span>
-                  <p className="m-0 text-[13.5px] font-bold">{step.title}</p>
+                  <p className="m-0 text-[13px] font-bold md:text-[13.5px]">{step.title}</p>
                 </div>
                 <p
                   className={`m-0 mt-0.5 pl-[27px] text-[12px] leading-[1.4] ${desc}`}
@@ -167,7 +167,7 @@ export default function Mentoring() {
               <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.56-.79.31-1.46.72-2.13 1.38A5.85 5.85 0 0 0 .63 3.14c-.3.76-.5 1.63-.56 2.91C0 7.33 0 7.74 0 11s.01 3.67.07 4.95c.06 1.28.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.66.66 1.34 1.06 2.13 1.38.76.3 1.63.5 2.91.56C8.33 22.99 8.74 23 12 23s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.56.79-.32 1.46-.72 2.13-1.38.66-.67 1.06-1.34 1.38-2.13.3-.76.5-1.63.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63c-.76-.3-1.63-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.6a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8zm0 10.56a4.16 4.16 0 1 1 0-8.32 4.16 4.16 0 0 1 0 8.32zm8.16-10.8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
             </svg>
           </div>
-          <p className="m-0 min-w-[260px] flex-1 text-[14.5px] leading-[1.6] text-black/75">
+          <p className="m-0 min-w-[260px] flex-1 text-[14px] leading-[1.6] text-black/75 md:text-[14.5px]">
             I also make educational content for students &amp; freshers:
             short Instagram videos breaking down coding topics.
           </p>

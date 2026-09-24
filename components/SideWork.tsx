@@ -25,7 +25,7 @@ const tile =
 const iconCircle =
   "flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[var(--cream)] text-[var(--accent)]";
 const flipLink =
-  "cursor-pointer border-none bg-transparent p-0 font-archivo text-sm text-[rgba(237,234,226,0.75)] underline-offset-4 transition-colors hover:text-[var(--cream)] hover:underline";
+  "cursor-pointer border-none bg-transparent p-0 font-archivo text-[13px] text-[rgba(237,234,226,0.75)] md:text-sm underline-offset-4 transition-colors hover:text-[var(--cream)] hover:underline";
 
 export default function SideWork() {
   const [flipped, setFlipped] = useState(false);
@@ -70,7 +70,7 @@ export default function SideWork() {
         >
           <div ref={frontBody}>
             <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <h3 className="m-0 font-anton text-2xl font-normal tracking-[0.5px] md:text-3xl">
+              <h3 className="m-0 font-anton text-xl font-normal tracking-[0.5px] md:text-3xl">
                 {sideWork.title}
               </h3>
               <button
@@ -98,10 +98,10 @@ export default function SideWork() {
                     </svg>
                   </div>
                   <div>
-                    <p className="m-0 font-anton text-lg leading-[1.2] tracking-[0.3px]">
+                    <p className="m-0 font-anton text-base leading-[1.2] tracking-[0.3px] md:text-lg">
                       {it.title}
                     </p>
-                    <p className="m-0 mt-1 text-sm leading-[1.5] text-[rgba(237,234,226,0.75)]">
+                    <p className="m-0 mt-1 text-[13px] leading-[1.5] text-[rgba(237,234,226,0.75)] md:text-sm">
                       {it.desc}
                     </p>
                   </div>
@@ -118,7 +118,7 @@ export default function SideWork() {
         >
           <div ref={backBody}>
             <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <h3 className="m-0 font-anton text-2xl font-normal tracking-[0.5px] md:text-3xl">
+              <h3 className="m-0 font-anton text-xl font-normal tracking-[0.5px] md:text-3xl">
                 Let&apos;s Connect
               </h3>
               <button
