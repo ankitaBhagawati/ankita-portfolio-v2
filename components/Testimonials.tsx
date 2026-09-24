@@ -25,6 +25,11 @@ function AuthorLink({
   );
 }
 
+function initials(name: string) {
+  const words = name.split(" ");
+  return words.length > 1 ? words[0][0] + words[words.length - 1][0] : words[0][0];
+}
+
 function stepOf(el: HTMLElement) {
   const [a, b] = [el.children[0], el.children[1]] as HTMLElement[];
   return a && b ? b.offsetLeft - a.offsetLeft : el.clientWidth;
@@ -155,11 +160,7 @@ export default function Testimonials() {
                     className="object-cover"
                   />
                 ) : (
-                  t.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .slice(0, 2)
-                    .join("")
+                  initials(t.name)
                 )}
               </span>
               <span>

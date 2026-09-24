@@ -261,6 +261,19 @@ export const testimonials: Testimonial[] = [
     name: "Farnaz Begum",
     role: "Team mate (AxomRelief)",
   },
+  {
+    quote:
+      "Ankita is a very dedicated and hardworking person. We conducted a session with her under the banner of Open Engineering and she was really good at explaining complex concepts in a simple and easy-to-understand way. She is also doing great work in terms of social contribution through Axom Relief. I truly appreciate her dedication and efforts.",
+    name: "Rubul Hoque Choudhury",
+    role: "Founder, Open Engineering",
+    linkedin: "https://www.linkedin.com/in/rubulhoquechoudhury",
+  },
+  {
+    quote:
+      "I had a really good experience learning from Ankita. What I appreciated most was her ability to explain things clearly and patiently, while also encouraging me to think through problems on my own. She has a practical understanding of her domain of work and a genuine willingness to help others learn and grow. Her guidance gave me more clarity and confidence in approaching technical problems, and I\u2019m grateful for the time and effort she put into helping me.",
+    name: "Rajdeep Borthakur",
+    role: "Colleague",
+  },
 ];
 
 export const faqs = [
