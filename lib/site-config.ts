@@ -126,7 +126,6 @@ export const workHistory = {
       company: "i2e Consulting",
       role: "Software Developer",
       period: "Sep 2021 - Feb 2025",
-      type: "Started as an intern, moved to full-time",
       href: "https://i2econsulting.com",
       logo: "/logos/i2econsulting.png",
     },
@@ -134,8 +133,26 @@ export const workHistory = {
 };
 
 // Shown right after the "Where I Work" block on the About section.
-export const sideWork =
-  "Outside of work, I take on freelance and consulting projects, and mentor students breaking into tech.";
+export const sideWork = {
+  title: "Outside of work",
+  items: [
+    {
+      key: "freelance",
+      title: "Freelance",
+      desc: "Software projects for clients.",
+    },
+    {
+      key: "consult",
+      title: "Consult businesses on tech",
+      desc: "Helping businesses make the right technical calls.",
+    },
+    {
+      key: "mentor",
+      title: "Mentor students",
+      desc: "Guiding students and freshers into tech careers.",
+    },
+  ],
+};
 
 export const builtProjects = [
   {
@@ -205,24 +222,31 @@ export const founderTrack = [
   { num: "04", label: "Hands-on technical direction" },
 ];
 
-export const testimonials = [
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  linkedin: string;
+  // Optional profile picture, e.g. "/testimonials/tonmoy.jpg" (saved in
+  // public/testimonials/). Without it, an initials circle is shown.
+  photo?: string;
+};
+
+export const testimonials: Testimonial[] = [
   {
     quote:
-      "Ankita broke down exactly what I was doing wrong in interviews and gave me a plan I could actually follow. Two months later I had an offer.",
-    name: "Placeholder Name",
-    role: "Student, mentee",
+      "Working with Ankita was a really good experience. She is quick with development, and has a clear understanding of what she wants her code to achieve. Along with coding her another major skill is working together with multiple people and making them all feel like valued members of the team. Would love to work with her again",
+    name: "Tonmoy Mahanta",
+    role: "Consultant",
+    linkedin: "https://www.linkedin.com/in/tonmoy-mahanta-b09367188/",
   },
   {
     quote:
-      "She saved us from an expensive rewrite. In one call she spotted the architecture problem our team had been circling for weeks.",
-    name: "Placeholder Name",
-    role: "Startup Founder",
-  },
-  {
-    quote:
-      "One of the most pragmatic engineers I have worked with; ships fast without cutting the corners that matter.",
-    name: "Placeholder Name",
-    role: "Colleague",
+      "She has been such an incredible workmate to build with. She brings thoughtful insights from across different fields and domains, and always adds a unique perspective to the work. Working together was genuinely enjoyable. Honestly, she\u2019s a creative design team\u2019s dream developer.",
+    name: "Mrigakshee K",
+    role: "UI UX designer",
+    linkedin:
+      "https://www.linkedin.com/in/mrigakshee-krishnatreya-4419651b6/",
   },
 ];
 

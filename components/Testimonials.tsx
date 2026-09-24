@@ -1,11 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { LinkedInIcon } from "@/components/SocialIcons";
 import { testimonials } from "@/lib/site-config";
 
+const AUTOPLAY_MS = 4000;
+
+function stepOf(el: HTMLElement) {
+  const [a, b] = [el.children[0], el.children[1]] as HTMLElement[];
+  return a && b ? b.offsetLeft - a.offsetLeft : el.clientWidth;
+}
+
 export default function Testimonials() {
-  const [slide, setSlide] = useState(0);
-  const maxSlide = testimonials.length - 1;
+  const scroller = useRef<HTMLDivElement>(null);
+  const timer = useRef<number | undefined>(undefined);
+  const hovering = useRef(false);
+  const [scrollable, setScrollable] = useState(true);
+
+  const next = useCallback(() => {
+    const el = scroller.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
+    else el.scrollBy({ left: stepOf(el), behavior: "smooth" });
+  }, []);
+
+  const prev = useCallback(() => {
+    const el = scroller.current;
+    if (!el) return;
+    if (el.scrollLeft <= 2) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
+    else el.scrollBy({ left: -stepOf(el), behavior: "smooth" });
+  }, []);
+
+  // Restarts the 4s countdown, so any manual scroll or click delays the next auto-advance.
+  const start = useCallback(() => {
+    window.clearInterval(timer.current);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    timer.current = window.setInterval(() => {
+      if (!hovering.current) next();
+    }, AUTOPLAY_MS);
+  }, [next]);
+
+  useEffect(() => {
+    start();
+    return () => window.clearInterval(timer.current);
+  }, [start]);
+
+  useEffect(() => {
+    const check = () => {
+      const el = scroller.current;
+      if (el) setScrollable(el.scrollWidth > el.clientWidth + 2);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <section
@@ -21,50 +71,93 @@ export default function Testimonials() {
             What do people say?
           </h2>
         </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => setSlide((s) => Math.max(0, s - 1))}
-            aria-label="Previous"
-            className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
-          >
-            ←
-          </button>
-          <button
-            onClick={() => setSlide((s) => Math.min(maxSlide, s + 1))}
-            aria-label="Next"
-            className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
-          >
-            →
-          </button>
-        </div>
-      </div>
-      <div className="overflow-hidden">
-        <div
-          className="flex gap-6 transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-          style={{
-            transform: `translateX(calc(${-slide} * (min(420px, 85vw) + 24px)))`,
-          }}
-        >
-          {testimonials.map((t) => (
-            <div
-              key={t.name + t.role}
-              className="flex flex-[0_0_min(420px,85vw)] flex-col gap-6 rounded-[20px] border border-black/25 p-[34px]"
+        {scrollable && (
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                prev();
+                start();
+              }}
+              aria-label="Previous"
+              className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
             >
-              <span className="font-anton text-4xl leading-none text-[var(--accent)]">
-                &quot;
+              ←
+            </button>
+            <button
+              onClick={() => {
+                next();
+                start();
+              }}
+              aria-label="Next"
+              className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
+            >
+              →
+            </button>
+          </div>
+        )}
+      </div>
+      <div
+        ref={scroller}
+        onPointerDown={start}
+        onWheel={start}
+        onTouchStart={start}
+        onPointerEnter={(e) => {
+          if (e.pointerType === "mouse") hovering.current = true;
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType === "mouse") {
+            hovering.current = false;
+            start();
+          }
+        }}
+        className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {testimonials.map((t) => (
+          <div
+            key={t.name + t.role}
+            className="flex flex-[1_0_min(420px,85vw)] snap-start flex-col gap-6 rounded-[20px] border border-black/25 p-[34px]"
+          >
+            <span className="font-anton text-4xl leading-none text-[var(--accent)]">
+              &quot;
+            </span>
+            <p className="m-0 flex-1 text-[15px] leading-[1.65] text-black/80">
+              {t.quote}
+            </p>
+            <a
+              href={t.linkedin}
+              target="_blank"
+              rel="noopener"
+              className="group flex items-center gap-3"
+            >
+              <span className="relative flex h-11 w-11 flex-none items-center justify-center overflow-hidden rounded-full bg-[var(--accent)] font-anton text-sm tracking-[0.5px] text-[var(--cream)]">
+                {t.photo ? (
+                  <Image
+                    src={t.photo}
+                    alt={t.name}
+                    fill
+                    sizes="44px"
+                    className="object-cover"
+                  />
+                ) : (
+                  t.name
+                    .split(" ")
+                    .map((w) => w[0])
+                    .slice(0, 2)
+                    .join("")
+                )}
               </span>
-              <p className="m-0 flex-1 text-[15px] leading-[1.65] text-black/80">
-                {t.quote}
-              </p>
-              <div>
-                <p className="m-0 text-sm font-bold">{t.name}</p>
-                <p className="mt-0.5 mb-0 text-[13px] text-black/55">
+              <span>
+                <span className="flex items-center gap-1.5 text-sm font-bold text-[var(--ink)] group-hover:underline">
+                  {t.name}
+                  <LinkedInIcon className="h-3.5 w-3.5 text-[#0A66C2]" />
+                </span>
+                <span className="mt-0.5 block text-[13px] text-black/55">
                   {t.role}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+                </span>
+              </span>
+            </a>
+          </div>
+        ))}
       </div>
     </section>
   );

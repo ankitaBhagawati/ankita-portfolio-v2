@@ -11,6 +11,8 @@
   --accent-hover: #6b1a1a;
   --cream: #edeae2;
   --ink: #1c1310;
+  --link: #1d4ed8;
+  --link-hover: #1e3a8a;
 }
 
 @layer base {
@@ -91,14 +93,14 @@
 }
 
 .flip-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   perspective: 1500px;
-  overflow: hidden;
 }
 
 .flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   transform-style: preserve-3d;
 }
@@ -109,8 +111,7 @@
 
 .flip-card-front,
 .flip-card-back {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -140,7 +141,7 @@
     grid-template-columns: 1fr !important;
   }
   .stats-bar {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
   .tracks-grid {
     grid-template-columns: 1fr !important;
@@ -157,5 +158,11 @@
   }
   .foot-email {
     font-size: clamp(28px, 8vw, 54px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .stat-value {
+    font-size: clamp(18px, calc(9.5vw - 11px), 36px);
   }
 }

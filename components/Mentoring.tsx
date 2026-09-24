@@ -11,40 +11,121 @@ import {
   studentTrack,
 } from "@/lib/site-config";
 
-function SeeApproachButton({ onClick }: { onClick: () => void }) {
+
+type Step = { num: string; title: string; desc: string };
+type Track = { num: string; label: string };
+
+function FlipButton({
+  onClick,
+  back,
+}: {
+  onClick: () => void;
+  back?: boolean;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flip-trigger inline-flex flex-none cursor-pointer items-center gap-1.5 rounded-full border border-current bg-transparent px-3 py-1.5 text-[11px] font-semibold tracking-[0.5px] uppercase transition-colors"
+      className="inline-flex flex-none cursor-pointer items-center gap-1.5 rounded-full border border-current bg-transparent px-3 py-1.5 text-[11px] font-semibold tracking-[0.5px] uppercase transition-opacity hover:opacity-70"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
-        <path d="M12 19V5M5 12l7-7 7 7" />
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-3 w-3"
+      >
+        <path d={back ? "M19 12H5M12 19l-7-7 7-7" : "M12 19V5M5 12l7-7 7 7"} />
       </svg>
-      See Approach
+      {back ? "Back" : "See Approach"}
     </button>
   );
 }
 
-function BackButton({ onClick }: { onClick: () => void }) {
+function FlipCard({
+  dark,
+  title,
+  tagline,
+  backTagline,
+  track,
+  approach,
+}: {
+  dark?: boolean;
+  title: string;
+  tagline: string;
+  backTagline: string;
+  track: Track[];
+  approach: Step[];
+}) {
+  const [flipped, setFlipped] = useState(false);
+  const face = dark
+    ? "bg-[var(--accent)] text-[var(--cream)]"
+    : "border border-black/25";
+  const muted = dark ? "text-[rgba(237,234,226,0.65)]" : "text-black/60";
+  const line = dark ? "border-[rgba(237,234,226,0.25)]" : "border-black/20";
+  const num = dark ? "text-[rgba(237,234,226,0.6)]" : "text-[var(--accent)]";
+  const desc = dark ? "text-[rgba(237,234,226,0.7)]" : "text-black/60";
+  const heading =
+    "m-0 font-anton text-xl font-normal uppercase md:text-2xl";
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flip-trigger inline-flex flex-none cursor-pointer items-center gap-1.5 rounded-full border border-current bg-transparent px-3 py-1.5 text-[11px] font-semibold tracking-[0.5px] uppercase transition-colors"
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
-        <path d="M19 12H5M12 19l-7-7 7-7" />
-      </svg>
-      Back
-    </button>
+    <div className={`flip-card ${flipped ? "is-flipped" : ""}`}>
+      <div className="flip-card-inner">
+        <div
+          inert={flipped}
+          className={`flip-card-front flex flex-col rounded-[20px] p-5 md:p-6 ${face}`}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <h3 className={heading}>{title}</h3>
+            <FlipButton onClick={() => setFlipped(true)} />
+          </div>
+          <p className={`m-0 mt-1 mb-3 text-sm ${muted}`}>{tagline}</p>
+          <div className={`flex flex-1 flex-col border-t ${line}`}>
+            {track.map((it) => (
+              <div
+                key={it.num}
+                className={`flex flex-1 items-center gap-3.5 border-b py-2 text-[15px] ${line}`}
+              >
+                <span className={`font-anton text-[13px] ${num}`}>{it.num}</span>
+                {it.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div
+          inert={!flipped}
+          className={`flip-card-back flex flex-col rounded-[20px] p-5 md:p-6 ${face}`}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <h3 className={heading}>My Approach</h3>
+            <FlipButton back onClick={() => setFlipped(false)} />
+          </div>
+          <p className={`m-0 mt-1 mb-3 text-sm ${muted}`}>{backTagline}</p>
+          <div className={`flex-1 border-t ${line}`}>
+            {approach.map((step) => (
+              <div key={step.num} className={`border-b py-1.5 ${line}`}>
+                <div className="flex items-baseline gap-3">
+                  <span className={`font-anton text-[13px] ${num}`}>
+                    {step.num}
+                  </span>
+                  <p className="m-0 text-[13.5px] font-bold">{step.title}</p>
+                </div>
+                <p
+                  className={`m-0 mt-0.5 pl-[27px] text-[12px] leading-[1.4] ${desc}`}
+                >
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function Mentoring() {
-  const [studentFlipped, setStudentFlipped] = useState(false);
-  const [founderFlipped, setFounderFlipped] = useState(false);
-
   return (
     <section
       id="mentoring"
@@ -56,127 +137,22 @@ export default function Mentoring() {
       <h2 className="section-hl my-6 mt-6 mb-12 font-anton leading-[1.05] tracking-[-0.5px] uppercase">
         Two ways I help
       </h2>
-      <div className="tracks-grid grid grid-cols-2 gap-7">
-        <div
-          className={`flip-card h-[540px] ${studentFlipped ? "is-flipped" : ""}`}
-        >
-          <div className="flip-card-inner">
-            <div className="flip-card-front flex flex-col rounded-[20px] border border-black/25 p-9">
-              <div className="mb-1.5 flex items-start justify-between gap-3">
-                <h3 className="m-0 font-anton text-2xl font-normal uppercase">
-                  For Students &amp; Freshers
-                </h3>
-                <SeeApproachButton onClick={() => setStudentFlipped(true)} />
-              </div>
-              <p className="m-0 mb-6 text-sm text-black/60">
-                Break into tech with a clear plan.
-              </p>
-              <div className="border-t border-black/20">
-                {studentTrack.map((it) => (
-                  <div
-                    key={it.num}
-                    className="flex items-baseline gap-3.5 border-b border-black/20 py-3.5 text-[14.5px]"
-                  >
-                    <span className="font-anton text-[13px] text-[var(--accent)]">
-                      {it.num}
-                    </span>
-                    {it.label}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flip-card-back flex flex-col rounded-[20px] border border-black/25 p-9">
-              <div className="mb-1.5 flex items-start justify-between gap-3">
-                <h3 className="m-0 font-anton text-2xl font-normal uppercase">
-                  My Approach
-                </h3>
-                <BackButton onClick={() => setStudentFlipped(false)} />
-              </div>
-              <p className="m-0 mb-6 text-sm text-black/60">
-                How a mentoring engagement actually runs.
-              </p>
-              <div className="min-h-0 flex-1 overflow-y-auto border-t border-black/20">
-                {studentApproach.map((step) => (
-                  <div key={step.num} className="border-b border-black/20 py-3">
-                    <div className="flex items-baseline gap-3">
-                      <span className="font-anton text-[13px] text-[var(--accent)]">
-                        {step.num}
-                      </span>
-                      <p className="m-0 text-[14.5px] font-bold">
-                        {step.title}
-                      </p>
-                    </div>
-                    <p className="m-0 mt-1 pl-[27px] text-[13px] leading-[1.5] text-black/60">
-                      {step.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`flip-card h-[540px] ${founderFlipped ? "is-flipped" : ""}`}
-        >
-          <div className="flip-card-inner">
-            <div className="flip-card-back flex flex-col rounded-[20px] bg-[var(--accent)] p-9 text-[var(--cream)]">
-              <div className="mb-1.5 flex items-start justify-between gap-3">
-                <h3 className="m-0 font-anton text-2xl font-normal uppercase">
-                  My Approach
-                </h3>
-                <BackButton onClick={() => setFounderFlipped(false)} />
-              </div>
-              <p className="m-0 mb-6 text-sm text-[rgba(237,234,226,0.65)]">
-                How a consulting engagement actually runs.
-              </p>
-              <div className="min-h-0 flex-1 overflow-y-auto border-t border-[rgba(237,234,226,0.25)]">
-                {founderApproach.map((step) => (
-                  <div
-                    key={step.num}
-                    className="border-b border-[rgba(237,234,226,0.25)] py-3"
-                  >
-                    <div className="flex items-baseline gap-3">
-                      <span className="font-anton text-[13px] text-[rgba(237,234,226,0.6)]">
-                        {step.num}
-                      </span>
-                      <p className="m-0 text-[14.5px] font-bold">
-                        {step.title}
-                      </p>
-                    </div>
-                    <p className="m-0 mt-1 pl-[27px] text-[13px] leading-[1.5] text-[rgba(237,234,226,0.7)]">
-                      {step.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flip-card-front flex flex-col rounded-[20px] bg-[var(--accent)] p-9 text-[var(--cream)]">
-              <div className="mb-1.5 flex items-start justify-between gap-3">
-                <h3 className="m-0 font-anton text-2xl font-normal uppercase">
-                  For Startup Founders
-                </h3>
-                <SeeApproachButton onClick={() => setFounderFlipped(true)} />
-              </div>
-              <p className="m-0 mb-6 text-sm text-[rgba(237,234,226,0.65)]">
-                Make the right technical calls, early.
-              </p>
-              <div className="border-t border-[rgba(237,234,226,0.25)]">
-                {founderTrack.map((it) => (
-                  <div
-                    key={it.num}
-                    className="flex items-baseline gap-3.5 border-b border-[rgba(237,234,226,0.25)] py-3.5 text-[14.5px]"
-                  >
-                    <span className="font-anton text-[13px] text-[rgba(237,234,226,0.6)]">
-                      {it.num}
-                    </span>
-                    {it.label}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="tracks-grid grid grid-cols-2 gap-6">
+        <FlipCard
+          title="For Students & Freshers"
+          tagline="Break into tech with a clear plan."
+          backTagline="How a mentoring engagement actually runs."
+          track={studentTrack}
+          approach={studentApproach}
+        />
+        <FlipCard
+          dark
+          title="For Startup Founders"
+          tagline="Make the right technical calls, early."
+          backTagline="How a consulting engagement actually runs."
+          track={founderTrack}
+          approach={founderApproach}
+        />
       </div>
       <div className="mt-8 rounded-2xl border border-black/25 p-7">
         <div className="flex flex-wrap items-center gap-4">

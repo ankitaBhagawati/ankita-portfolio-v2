@@ -20,13 +20,13 @@ export default function Published() {
             href={item.href}
             target="_blank"
             rel="noopener"
-            className="group grid grid-cols-1 gap-1.5 border-b border-black/20 py-[26px] transition-colors hover:text-[var(--accent)] md:grid-cols-[160px_1fr] md:items-baseline md:gap-6"
+            className="group grid grid-cols-1 gap-1.5 border-b border-black/20 py-[26px] md:grid-cols-[160px_1fr] md:items-baseline md:gap-6"
           >
-            <span className="text-xs font-semibold tracking-[1px] text-[var(--accent)] uppercase">
+            <span className="text-sm font-semibold text-[var(--link)] transition-colors group-hover:text-[var(--link-hover)]">
               {item.outlet}
             </span>
             <div>
-              <h3 className="m-0 flex items-start gap-2 font-anton text-xl font-normal tracking-[0.3px] text-[var(--ink)] uppercase transition-colors group-hover:text-[var(--accent)]">
+              <h3 className="m-0 flex items-start gap-2 font-anton text-xl font-normal tracking-[0.3px] text-[var(--ink)] transition-colors group-hover:text-[var(--link)]">
                 {item.title}
                 <svg
                   viewBox="0 0 24 24"
@@ -35,12 +35,12 @@ export default function Published() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="mt-1.5 h-4 w-4 flex-none text-black/35 transition-colors group-hover:text-[var(--accent)]"
+                  className="mt-1.5 h-4 w-4 flex-none text-black/35 transition-colors group-hover:text-[var(--link)]"
                 >
                   <path d="M7 17 17 7M8 7h9v9" />
                 </svg>
               </h3>
-              <span className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.5px] text-black/50 uppercase transition-colors group-hover:text-[var(--accent)]">
+              <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--link)] underline-offset-4 transition-colors group-hover:text-[var(--link-hover)] group-hover:underline">
                 Read full article
                 <svg
                   viewBox="0 0 24 24"

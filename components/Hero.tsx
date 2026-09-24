@@ -30,6 +30,22 @@ export default function Hero() {
               />
             </div>
           </div>
+          <div className="pointer-events-none absolute -top-3.5 -right-[72px] max-w-[150px] max-[340px]:-right-12 rotate-[6deg] font-caveat text-2xl leading-[1.1] text-[var(--accent)]">
+            That&apos;s me. Let&apos;s talk tech
+            <svg
+              viewBox="0 0 100 60"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="absolute top-[52px] left-0 h-[60px] w-[100px] overflow-visible"
+            >
+              <path d="M80 6C86 24 62 40 38 36" />
+              <path d="M45 41.5 38 36l8.5-3" />
+            </svg>
+          </div>
         </div>
         <div className="pb-3">
           <p className="m-0 font-anton text-[26px] uppercase tracking-[0.5px]">
@@ -66,8 +82,11 @@ export default function Hero() {
 
       <div className="stats-bar mt-16 grid grid-cols-4 gap-px border-t border-b border-black/15 bg-black/15">
         {stats.map((st) => (
-          <div key={st.label} className="bg-[var(--cream)] px-5 py-[26px]">
-            <div className="font-anton text-4xl text-[var(--accent)]">
+          <div
+            key={st.label}
+            className="bg-[var(--cream)] px-5 py-[26px] max-[560px]:px-4"
+          >
+            <div className="stat-value font-anton text-4xl whitespace-nowrap text-[var(--accent)]">
               {st.value}
             </div>
             <div className="mt-1 text-[13px] text-black/65">{st.label}</div>

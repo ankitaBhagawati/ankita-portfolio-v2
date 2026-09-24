@@ -1,8 +1,8 @@
 import Image from "next/image";
+import SideWork from "@/components/SideWork";
 import {
   builtProjects,
   keySkills,
-  sideWork,
   whatIDo,
   workHistory,
 } from "@/lib/site-config";
@@ -61,7 +61,11 @@ export default function About() {
               </span>
             </div>
             <p className="mt-1 mb-0 text-[13.5px] text-black/60">
-              {workHistory.current.role} · {workHistory.current.period}
+              {workHistory.current.role}
+              <span className="block sm:inline">
+                <span className="hidden sm:inline"> · </span>
+                {workHistory.current.period}
+              </span>
             </p>
           </div>
         </a>
@@ -83,11 +87,17 @@ export default function About() {
                     {job.company}
                   </p>
                   <p className="mt-0.5 mb-0 text-[13px] text-black/60">
-                    {job.role} · {job.period}
+                    {job.role}
+                    <span className="block sm:inline">
+                      <span className="hidden sm:inline"> · </span>
+                      {job.period}
+                    </span>
                   </p>
-                  <p className="mt-1 mb-0 text-[12.5px] text-black/45">
-                    {job.type}
-                  </p>
+                  {job.type && (
+                    <p className="mt-1 mb-0 text-[12.5px] text-black/45">
+                      {job.type}
+                    </p>
+                  )}
                 </div>
               </div>
             );
@@ -111,24 +121,7 @@ export default function About() {
         </div>
       </div>
 
-      <div className="mb-10 flex items-start gap-4 rounded-2xl border-l-4 border-[var(--accent)] bg-[rgba(61,12,12,0.05)] p-6">
-        <div className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[var(--accent)]">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--cream)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-[18px] w-[18px]"
-          >
-            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-          </svg>
-        </div>
-        <p className="m-0 text-base leading-[1.55] font-semibold text-[var(--ink)]">
-          {sideWork}
-        </p>
-      </div>
+      <SideWork />
 
       {/* What I'm building */}
       <div className="mb-10">
