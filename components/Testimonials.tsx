@@ -5,7 +5,12 @@ import Image from "next/image";
 import { LinkedInIcon } from "@/components/SocialIcons";
 import { testimonials } from "@/lib/site-config";
 
-const AUTOPLAY_MS = 2000;
+const N = testimonials.length;
+// Time to read a card: ~4 words/sec plus a beat, never under 6s.
+const dwellMs = (i: number) =>
+  Math.max(6000, testimonials[i % N].quote.split(/\s+/).length * 250 + 2000);
+// After a touch/scroll/click, stay put this long before auto-advancing again.
+const IDLE_AFTER_INTERACT_MS = 10000;
 
 function AuthorLink({
   href,
@@ -35,50 +40,89 @@ function stepOf(el: HTMLElement) {
   return a && b ? b.offsetLeft - a.offsetLeft : el.clientWidth;
 }
 
+// The list is rendered twice. Once scrolling reaches the second copy, jump
+// back by one copy's width with no animation: it looks identical, so the
+// carousel loops forever instead of rewinding to the start.
 export default function Testimonials() {
   const scroller = useRef<HTMLDivElement>(null);
   const timer = useRef<number | undefined>(undefined);
   const hovering = useRef(false);
+  const onScreen = useRef(false);
   const [scrollable, setScrollable] = useState(true);
+  const [active, setActive] = useState(0);
+
+  const indexNow = (el: HTMLElement) => Math.round(el.scrollLeft / stepOf(el));
+
+  // Silently move from the second copy back into the first.
+  const wrap = useCallback(() => {
+    const el = scroller.current;
+    if (!el) return;
+    const step = stepOf(el);
+    if (el.scrollLeft >= N * step - 2) el.scrollTo({ left: el.scrollLeft - N * step, behavior: "instant" });
+    setActive(indexNow(el) % N);
+  }, []);
+
+  const goTo = useCallback((i: number) => {
+    const el = scroller.current;
+    if (el) el.scrollTo({ left: i * stepOf(el), behavior: "smooth" });
+  }, []);
 
   const next = useCallback(() => {
     const el = scroller.current;
-    if (!el) return;
-    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
-    if (atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
-    else el.scrollBy({ left: stepOf(el), behavior: "smooth" });
-  }, []);
+    if (el) goTo(indexNow(el) + 1);
+  }, [goTo]);
 
   const prev = useCallback(() => {
     const el = scroller.current;
     if (!el) return;
-    if (el.scrollLeft <= 2) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
-    else el.scrollBy({ left: -stepOf(el), behavior: "smooth" });
+    // At the first card, hop to its twin in the second copy so "back" also loops.
+    if (indexNow(el) === 0) el.scrollTo({ left: N * stepOf(el), behavior: "instant" });
+    goTo(indexNow(el) - 1);
+  }, [goTo]);
+
+  // Autoplay clock: a card advances once it has been on screen, un-hovered and
+  // untouched for its reading time. Any pause restarts that card's clock.
+  const shownAt = useRef(0);
+  const pausedUntil = useRef(0);
+  const interacted = useCallback(() => {
+    pausedUntil.current = performance.now() + IDLE_AFTER_INTERACT_MS;
   }, []);
 
-  // Restarts the countdown, so any manual scroll or click delays the next auto-advance.
-  const start = useCallback(() => {
-    window.clearInterval(timer.current);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => (onScreen.current = e.isIntersecting), { threshold: 0.5 });
+    io.observe(el);
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     timer.current = window.setInterval(() => {
-      if (!hovering.current) next();
-    }, AUTOPLAY_MS);
-  }, [next]);
+      const now = performance.now();
+      if (reduced || hovering.current || !onScreen.current || now < pausedUntil.current) {
+        shownAt.current = now;
+      } else if (now - shownAt.current >= dwellMs(indexNow(el))) {
+        next();
+        shownAt.current = now + 600; // count the next card's time from when it lands
+      }
+    }, 500);
 
-  useEffect(() => {
-    start();
-    return () => window.clearInterval(timer.current);
-  }, [start]);
-
-  useEffect(() => {
-    const check = () => {
-      const el = scroller.current;
-      if (el) setScrollable(el.scrollWidth > el.clientWidth + 2);
+    let settle: number | undefined;
+    const onScroll = () => {
+      window.clearTimeout(settle);
+      settle = window.setTimeout(wrap, 120); // after smooth scroll / snap finishes
     };
+    el.addEventListener("scroll", onScroll, { passive: true });
+
+    const check = () => setScrollable(N * stepOf(el) > el.clientWidth + 2);
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+    return () => {
+      io.disconnect();
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", check);
+      window.clearInterval(timer.current);
+      window.clearTimeout(settle);
+    };
+  }, [next, wrap]);
 
   return (
     <section
@@ -95,11 +139,11 @@ export default function Testimonials() {
           </h2>
         </div>
         {scrollable && (
-          <div className="flex gap-3">
+          <div className="hidden gap-3 md:flex">
             <button
               onClick={() => {
                 prev();
-                start();
+                interacted();
               }}
               aria-label="Previous"
               className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
@@ -109,7 +153,7 @@ export default function Testimonials() {
             <button
               onClick={() => {
                 next();
-                start();
+                interacted();
               }}
               aria-label="Next"
               className="arrow-btn flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-full border border-black/35 bg-transparent text-lg text-[var(--ink)] transition-colors"
@@ -121,23 +165,22 @@ export default function Testimonials() {
       </div>
       <div
         ref={scroller}
-        onPointerDown={start}
-        onWheel={start}
-        onTouchStart={start}
+        onPointerDown={interacted}
+        onWheel={interacted}
+        onTouchStart={interacted}
         onPointerEnter={(e) => {
           if (e.pointerType === "mouse") hovering.current = true;
         }}
         onPointerLeave={(e) => {
-          if (e.pointerType === "mouse") {
-            hovering.current = false;
-            start();
-          }
+          if (e.pointerType === "mouse") hovering.current = false;
         }}
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {testimonials.map((t) => (
+        {[...testimonials, ...testimonials].map((t, i) => (
           <div
-            key={t.name + t.role}
+            key={i}
+            aria-hidden={i >= N || undefined}
+            inert={i >= N || undefined}
             className="flex flex-[1_0_min(420px,85vw)] snap-start flex-col gap-6 rounded-[20px] border border-black/25 p-6 md:p-[34px]"
           >
             <span className="font-anton text-3xl leading-none text-[var(--accent)] md:text-4xl">
@@ -180,6 +223,25 @@ export default function Testimonials() {
           </div>
         ))}
       </div>
+      {scrollable && (
+        <div className="mt-6 flex justify-center gap-2">
+          {testimonials.map((t, i) => (
+            <button
+              key={t.name + t.role}
+              type="button"
+              aria-label={`Testimonial ${i + 1} of ${N}`}
+              aria-current={i === active || undefined}
+              onClick={() => {
+                goTo(i);
+                interacted();
+              }}
+              className={`h-2 cursor-pointer rounded-full border-0 p-0 transition-all duration-300 ${
+                i === active ? "w-6 bg-[var(--accent)]" : "w-2 bg-black/20 hover:bg-black/40"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

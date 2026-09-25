@@ -1,3 +1,6 @@
+// Live domain. Used for og:image, canonical URL, sitemap and robots.txt.
+export const siteUrl = "https://techbagwitty.in";
+
 export const brand = {
   name: "Tech Bagwitty",
   fullName: "Ankita Bhagawati",
@@ -159,7 +162,7 @@ export const builtProjects = [
     name: "Axom Relief",
     desc: "Social-tech initiative coordinating flood relief in Assam. Partnered with the Sivasagar district administration to help an estimated 2,000 people access aid.",
     href: "https://axomrelief.com",
-    logo: "/logos/axomrelief.webp",
+    logo: "/logos/axomrelief.png",
     instagram: "https://www.instagram.com/axom.relief/",
     instagramHandle: "axom.relief",
   },
@@ -173,13 +176,14 @@ export const builtProjects = [
   },
 ];
 
+// `proof` is the one-liner under each skill card. Keep it to real, checkable facts.
 export const keySkills = [
-  "Startup tech strategy",
-  "Career mentoring & interview prep",
-  "AI-driven development & tooling",
-  "Database design & SQL",
-  "Communication & Public Speaking",
-  "Project management",
+  { name: "Startup tech strategy", proof: "10+ startups guided" },
+  { name: "Career mentoring & interview prep", proof: "50+ students mentored" },
+  { name: "AI-driven development & tooling", proof: "5+ years shipping fullstack software" },
+  { name: "Database design & SQL", proof: "Schemas and queries built to scale" },
+  { name: "Communication & Public Speaking", proof: "Featured in Assam Tribune & India Today NE" },
+  { name: "Project management", proof: "Shipped Axom Relief & Jabor" },
 ];
 
 export const publishedItems = [
@@ -259,7 +263,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "I really enjoyed working with her. She taught me everything with so much patience and kindness, and explained everything so well. She has a very friendly and supportive nature. I\u2019m genuinely happy that I got the opportunity to work with her. It was a great experience!",
     name: "Farnaz Begum",
-    role: "Team mate (AxomRelief)",
+    role: "coordinator, Axom Relief",
   },
   {
     quote:
@@ -272,7 +276,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "I had a really good experience learning from Ankita. What I appreciated most was her ability to explain things clearly and patiently, while also encouraging me to think through problems on my own. She has a practical understanding of her domain of work and a genuine willingness to help others learn and grow. Her guidance gave me more clarity and confidence in approaching technical problems, and I\u2019m grateful for the time and effort she put into helping me.",
     name: "Rajdeep Borthakur",
-    role: "Colleague",
+    role: "Student, BTech CSE",
   },
 ];
 

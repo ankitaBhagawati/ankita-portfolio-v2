@@ -7,10 +7,15 @@ import {
   workHistory,
 } from "@/lib/site-config";
 
-function LogoBadge({ src, alt }: { src: string; alt: string }) {
+// `bare`: no white tile, for transparent logos that sit straight on the card.
+function LogoBadge({ src, alt, bare }: { src: string; alt: string; bare?: boolean }) {
   return (
-    <div className="relative flex h-11 w-11 flex-none items-center justify-center overflow-hidden rounded-[10px] border border-black/10 bg-white p-1.5">
-      <Image src={src} alt={alt} fill className="object-contain p-1.5" sizes="44px" />
+    <div
+      className={`relative flex h-11 w-11 flex-none items-center justify-center overflow-hidden ${
+        bare ? "" : "rounded-[10px] border border-black/10 bg-white p-1.5"
+      }`}
+    >
+      <Image src={src} alt={alt} fill className={`object-contain ${bare ? "" : "p-1.5"}`} sizes="44px" />
     </div>
   );
 }
@@ -140,7 +145,7 @@ export default function About() {
                 rel="noopener"
                 className="flex items-center gap-3.5 transition-colors hover:text-[var(--accent)]"
               >
-                <LogoBadge src={p.logo} alt={p.name} />
+                <LogoBadge src={p.logo} alt={p.name} bare />
                 <p className="m-0 font-anton text-base uppercase text-[var(--ink)] md:text-lg">
                   {p.name}
                 </p>
@@ -202,18 +207,20 @@ export default function About() {
       </div>
 
       {/* Key skills */}
-      <div>
-        <p className="m-0 mb-3 text-xs font-bold tracking-[1.5px] text-[var(--accent)] uppercase">
-          Key Skills
+      <div className="rounded-[20px] border border-black/15 p-6 md:p-8">
+        <p className="m-0 mb-5 text-xs font-bold tracking-[1.5px] text-[var(--accent)] uppercase">
+          Top {keySkills.length} Key Skills
         </p>
-        <div className="grid grid-cols-1 gap-x-8 border-t border-black/15 md:grid-cols-2">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
           {keySkills.map((sk) => (
             <div
-              key={sk}
-              className="flex items-baseline gap-3 border-b border-black/15 py-3 text-[14.5px] text-black/75"
+              key={sk.name}
+              className="flex flex-col justify-end rounded-[14px] border border-black/15 bg-black/[0.02] p-4 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] motion-reduce:hover:translate-y-0 md:min-h-[120px] md:rounded-[16px] md:p-6"
             >
-              <span className="text-xs text-black/40">●</span>
-              {sk}
+              <div>
+                <p className="m-0 text-[14px] leading-snug font-semibold text-[var(--ink)] md:text-[17px]">{sk.name}</p>
+                <p className="mt-1 mb-0 text-[12px] leading-snug text-black/60 md:mt-1.5 md:text-[13.5px]">{sk.proof}</p>
+              </div>
             </div>
           ))}
         </div>

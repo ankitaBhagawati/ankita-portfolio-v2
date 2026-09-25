@@ -24,6 +24,18 @@ Open [http://localhost:3000](http://localhost:3000).
   at `calLink: "ankita-bhagawati/quick-call"` in `lib/site-config.ts` (i.e.
   `https://cal.com/ankita-bhagawati/quick-call`). Update `calLink` there if
   the event link changes.
+- **Analytics**: Google Analytics 4 (`G-H14T3EY2XR`) and Microsoft Clarity
+  (`ynuf625ijn`), IDs set in `components/Analytics.tsx`. They only load on the
+  live Vercel deployment (`NEXT_PUBLIC_VERCEL_ENV === "production"`, set by
+  Vercel automatically), not in local dev or preview deploys. GA4 also gets
+  two custom events from `components/Analytics.tsx`: `section_time` (seconds
+  spent on each `section[id]`) and `ui_click` (every link/button click, with
+  the section it was in).
+- **Domain / SEO**: the live domain is `siteUrl` in `lib/site-config.ts`. It
+  drives the og:image URL, canonical link, `sitemap.xml` and `robots.txt`.
+- **Mascot ("mini witty")**: `public/mascot/` (don't edit those files) is
+  embedded by `components/FloatingMascot.tsx`, which also turns on
+  drag-to-rotate from outside the iframe.
 - **Photos**: `assets/images/hero-placeholder.webp`, `about-placeholder.webp`,
   and `footer-placeholder.webp` are generic placeholder illustrations, not real
   photos. Swap them for real photos (same filenames, or update the imports in
